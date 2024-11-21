@@ -20,7 +20,6 @@ void filter(
 
 
     double filtered_grad = 0.0f;
-    // double filtered_grad_var = 0.0f;
     double w_sum = 0.0f;
     float eps = 1e-10;
 
@@ -46,20 +45,11 @@ void filter(
                 double w = h * w_l;
 
                 filtered_grad += w * double(grad_neighbor);
-                // filtered_grad_var += abs(w * double(grad_neighbor));
-                // filtered_grad_var += w * double(grad_neighbor) * w * double(grad_neighbor);
                 w_sum += w;
             }
         }
     }
 
-    // filtered_grad /= w_sum;
-    // output[coord] = float(filtered_grad);
-    // if (stride == 4) {
-    //     output[coord] = float(filtered_grad / (filtered_grad_var + 1e-20));
-    //     // output[coord] = float(filtered_grad / (sqrt(filtered_grad_var) + 1e-20));
-    // } else {
-        filtered_grad /= w_sum;
-        output[coord] = float(filtered_grad);
-    // }
+    filtered_grad /= w_sum;
+    output[coord] = float(filtered_grad);
 }
