@@ -1,0 +1,8 @@
+mitsuba == 3.5.1
+slangpy
+torch
+matplotlib
+numpy
+ipykernel
+ipython
+ipywidgets

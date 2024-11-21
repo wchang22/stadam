@@ -1,0 +1,10 @@
+.DS_Store
+
+*.lock
+
+.vscode
+.vs
+__pycache__
+.slangpy_cache
+
+results/
