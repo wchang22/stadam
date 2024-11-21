@@ -21,9 +21,7 @@ void filter(
     double filtered_grad = 0.0f;
     double w_sum = 0.0f;
     double eps = 1e-30;
-    // double eps = 1e-20;
     double sigma_l_d = double(sigma_l);
-    // float eps = 1e-10;
 
     float kernel[] = {3.0 / 8, 1.0 / 4, 1.0 / 16};
 
