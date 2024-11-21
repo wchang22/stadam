@@ -63,7 +63,6 @@ class SpatioTemporalAdamVol(torch.optim.Adam):
         self.postfilter = postfilter
         self.mtfilter = mtfilter
         self.vtfilter = vtfilter
-        self.mt_vt_ratio = []
 
 
     @_use_grad_for_differentiable
@@ -245,8 +244,6 @@ class SpatioTemporalAdamVol(torch.optim.Adam):
                 denom = (max_exp_avg_sqs[i].sqrt() / bias_correction2_sqrt).add_(eps)
             else:
                 denom = (var.sqrt() / bias_correction2_sqrt).add_(eps)
-            # self.mt_vt_ratio.append(((grad / var.sqrt()) > 1.0).float().mean().item())
-            self.mt_vt_ratio.append((grad.abs() / bias_correction1 / denom).mean().item())
 
             param.addcdiv_(grad, denom, value=-step_size)
 
@@ -272,8 +269,6 @@ def filter3d(input_grad, input_primal, output, radius=2, stride=2, sigma_l_1d=-1
         assert False
     fn.filter(
         input_grad=input_grad,
-        # input_primal=torch.log(input_primal + 1e-8) if c ==1 else input_primal,
-        # input_primal=input_grad,
         input_primal=input_primal,
         output=output,
         radius=radius,

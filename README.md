@@ -2,7 +2,7 @@
 
 ![teaser](images/stadam.png)
 
-This repository contains the implementation for the SIGGRAPH Asia 2024 [Spatiotemporal Bilateral Gradient Filtering for Inverse Rendering
+This repository contains the implementation for the SIGGRAPH Asia 2024 paper [Spatiotemporal Bilateral Gradient Filtering for Inverse Rendering
 ](https://weschang.com/publications/stadam/).
 
 ## Running
@@ -13,7 +13,7 @@ The code requires Python 3.10 and above and installing required dependencies by:
 pip install -r requirements.txt
 ```
 
-Then you should be able to run each notebook in the `notebooks` directory.
+Then you should be able to run each notebook in the `notebooks` directory (either as jupyter notebooks or as python scripts).
 
 
 ## Important Files

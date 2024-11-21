@@ -330,7 +330,7 @@ for exp_name in exps:
 
         losses.append(total_loss)
 
-        print(f"Experiment name {exp_name} Iteration {it:02d}, loss={total_loss:6f}")
+        print(f"Experiment name {exp_name}, Iteration {it:02d}, loss={total_loss:6f}")
 
 
         save_volumes(sigmat, albedo, RESULT_PATH, f'{it}.pt')
@@ -415,7 +415,6 @@ for i in range(sensor_count):
     sensors.append(mi.load_dict({
         'type': 'perspective',
         'fov': fov,
-        # 'fov': 45,
         'to_world': sensor_rotation @ sensor_to_world,
         'film': {
             'type': 'hdrfilm',
