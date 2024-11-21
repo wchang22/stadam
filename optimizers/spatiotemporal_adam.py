@@ -21,7 +21,7 @@ class SpatioTemporalAdam(torch.optim.Adam):
         moment_alpha=0.95,
         eps=1e-8,
         weight_decay=0,
-        sigma_l=2e-2,
+        sigma_d=2e-2,
         postfilter=True,
         prefilter=False,
         mtfilter=True,
@@ -56,7 +56,7 @@ class SpatioTemporalAdam(torch.optim.Adam):
         self.sigma = sigma
         self.moment_alpha = moment_alpha
         self.stride_levels = stride_levels
-        self.sigma_l = sigma_l
+        self.sigma_d = sigma_d
         self.log_primal = log_primal
         self.cross_term_off = cross_term_off
         self.prefilter = prefilter
@@ -171,7 +171,7 @@ class SpatioTemporalAdam(torch.optim.Adam):
                         output=filtered_grad,
                         radius=radius,
                         stride=strides[j],
-                        sigma_l=self.sigma_l,
+                        sigma_d=self.sigma_d,
                         log_primal=self.log_primal
                     )
                     grad, filtered_grad = filtered_grad, grad
@@ -210,7 +210,7 @@ class SpatioTemporalAdam(torch.optim.Adam):
                             output=filtered_grad,
                             radius=radius,
                             stride=strides[i],
-                            sigma_l=self.sigma_l,
+                            sigma_d=self.sigma_d,
                             log_primal=self.log_primal
                         )
                         grad, filtered_grad = filtered_grad, grad
@@ -226,7 +226,7 @@ class SpatioTemporalAdam(torch.optim.Adam):
                             output=filtered_var,
                             radius=radius,
                             stride=strides[i],
-                            sigma_l=self.sigma_l,
+                            sigma_d=self.sigma_d,
                             log_primal=self.log_primal
                         )
                         var, filtered_var = filtered_var, var
@@ -252,7 +252,7 @@ m2d_scalar = slangpy.loadModule(os.path.join(file_path, "filter2d_scalar.slang")
 m2d_rgb = slangpy.loadModule(os.path.join(file_path, "filter2d_rgb.slang"))
 
 
-def filter2d(input_grad, input_primal, output, radius=2, stride=2, sigma_l=2e-2, log_primal=False):
+def filter2d(input_grad, input_primal, output, radius=2, stride=2, sigma_d=2e-2, log_primal=False):
     h, w, c = output.shape
     block_size = 32
     fn = None
@@ -266,7 +266,7 @@ def filter2d(input_grad, input_primal, output, radius=2, stride=2, sigma_l=2e-2,
         output=output,
         radius=radius,
         stride=stride,
-        sigma_l=sigma_l
+        sigma_d=sigma_d
     ).launchRaw(
         blockSize=(block_size, block_size, 1),
         gridSize=(math.ceil(h / block_size), math.ceil(w / block_size), 1),

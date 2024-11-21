@@ -60,9 +60,9 @@ exps = {
     "OPT_beta1": 0.2,
     "OPT_lr": 0.02,
     "OPT_stride_levels": 3,
-    "OPT_sigma_l_1d": 1e-3, #bf
-    "OPT_sigma_l_3d": 2e-7, #bf
-    "OPT_sigma_l_final": -1,
+    "OPT_sigma_d_1d": 1e-3, #bf
+    "OPT_sigma_d_3d": 2e-7, #bf
+    "OPT_sigma_d_final": -1,
     "OPT_cross_term_off": True,
     "OPT_postfilter": True,
     "OPT_prefilter": False,
@@ -72,9 +72,9 @@ exps = {
     "OPT_beta1": 0.2,
     "OPT_lr": 0.02,
     "OPT_stride_levels": 3,
-    "OPT_sigma_l_1d": 1e1, #lowpass
-    "OPT_sigma_l_3d": 1e1, #lowpass
-    "OPT_sigma_l_final": -1,
+    "OPT_sigma_d_1d": 1e1, #lowpass
+    "OPT_sigma_d_3d": 1e1, #lowpass
+    "OPT_sigma_d_final": -1,
     "OPT_cross_term_off": False,
     "OPT_postfilter": True,
     "OPT_prefilter": False,
@@ -84,9 +84,9 @@ exps = {
     "OPT_beta1": 0.2,
     "OPT_lr": 0.02,
     "OPT_stride_levels": 3,
-    "OPT_sigma_l_1d": 1e-3,
-    "OPT_sigma_l_3d": 2e-1,
-    "OPT_sigma_l_final": -1,
+    "OPT_sigma_d_1d": 1e-3,
+    "OPT_sigma_d_3d": 2e-1,
+    "OPT_sigma_d_final": -1,
     "OPT_cross_term_off": False,
     "OPT_postfilter": True,
     "OPT_prefilter": False,
@@ -262,11 +262,11 @@ for exp_name in exps:
     else:
         opt_postfilter = SP['OPT_postfilter']
         opt_prefilter = SP['OPT_prefilter']
-        opt_sigma_l_1d = SP['OPT_sigma_l_1d']
-        opt_sigma_l_3d = SP['OPT_sigma_l_3d']
+        opt_sigma_d_1d = SP['OPT_sigma_d_1d']
+        opt_sigma_d_3d = SP['OPT_sigma_d_3d']
         stride_levels = SP['OPT_stride_levels']
         cross_term_off = SP['OPT_cross_term_off']
-        opt = SpatioTemporalAdamVol([sigmat, albedo], lr=learning_rate, stride_levels=stride_levels, betas=betas, eps=ADAM_EPS, sigma_l_1d=opt_sigma_l_1d, sigma_l_3d=opt_sigma_l_3d, cross_term_off=cross_term_off, prefilter=opt_prefilter, postfilter=opt_postfilter)
+        opt = SpatioTemporalAdamVol([sigmat, albedo], lr=learning_rate, stride_levels=stride_levels, betas=betas, eps=ADAM_EPS, sigma_d_1d=opt_sigma_d_1d, sigma_d_3d=opt_sigma_d_3d, cross_term_off=cross_term_off, prefilter=opt_prefilter, postfilter=opt_postfilter)
 
     def save_volumes(s, a, save_dir, name):
         torch.save(
@@ -308,11 +308,11 @@ for exp_name in exps:
             else:
                 opt_postfilter = SP['OPT_postfilter']
                 opt_prefilter = SP['OPT_prefilter']
-                opt_sigma_l_1d = SP['OPT_sigma_l_1d']
-                opt_sigma_l_3d = SP['OPT_sigma_l_3d']
+                opt_sigma_d_1d = SP['OPT_sigma_d_1d']
+                opt_sigma_d_3d = SP['OPT_sigma_d_3d']
                 stride_levels = SP['OPT_stride_levels']
                 cross_term_off = SP['OPT_cross_term_off']
-                opt = SpatioTemporalAdamVol([sigmat, albedo], lr=learning_rate, stride_levels=stride_levels, betas=betas, eps=ADAM_EPS, sigma_l_1d=opt_sigma_l_1d, sigma_l_3d=opt_sigma_l_3d, cross_term_off=cross_term_off, prefilter=opt_prefilter, postfilter=opt_postfilter)
+                opt = SpatioTemporalAdamVol([sigmat, albedo], lr=learning_rate, stride_levels=stride_levels, betas=betas, eps=ADAM_EPS, sigma_d_1d=opt_sigma_d_1d, sigma_d_3d=opt_sigma_d_3d, cross_term_off=cross_term_off, prefilter=opt_prefilter, postfilter=opt_postfilter)
 
         total_loss = 0.0
         for sensor_idx in range(1):
@@ -458,7 +458,7 @@ img_idxs = [0, 10, 20, 30, 40, 50, 190] # janga smoke
 K = len(exp_names)
 N = len(img_idxs)
 sensor_idx = 60
-PRINT_SPP = 4
+PRINT_SPP = 64 # change this to 512 for final images
 fig = plt.figure(figsize=((N + 1)*K , K*4))
 with torch.no_grad():
     plt.subplot(K, N + 1, N + 1)

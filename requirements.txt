@@ -1,6 +1,6 @@
 mitsuba == 3.5.1
 slangpy
-torch
+torch == 2.1.0 # other versions require changes to the optimizer code due to API changes
 matplotlib
 numpy
 ipykernel

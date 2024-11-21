@@ -21,8 +21,8 @@ class SpatioTemporalAdamVol(torch.optim.Adam):
         moment_alpha=0.95,
         eps=1e-8,
         weight_decay=0,
-        sigma_l_1d=0,
-        sigma_l_3d=0,
+        sigma_d_1d=0,
+        sigma_d_3d=0,
         postfilter=True,
         prefilter=False,
         mtfilter=True,
@@ -56,8 +56,8 @@ class SpatioTemporalAdamVol(torch.optim.Adam):
         self.sigma = sigma
         self.moment_alpha = moment_alpha
         self.stride_levels = stride_levels
-        self.sigma_l_1d = sigma_l_1d
-        self.sigma_l_3d = sigma_l_3d
+        self.sigma_d_1d = sigma_d_1d
+        self.sigma_d_3d = sigma_d_3d
         self.cross_term_off = cross_term_off
         self.prefilter = prefilter
         self.postfilter = postfilter
@@ -171,8 +171,8 @@ class SpatioTemporalAdamVol(torch.optim.Adam):
                         output=filtered_grad,
                         radius=radius,
                         stride=strides[j],
-                        sigma_l_1d=self.sigma_l_1d,
-                        sigma_l_3d=self.sigma_l_3d
+                        sigma_d_1d=self.sigma_d_1d,
+                        sigma_d_3d=self.sigma_d_3d
                     )
                     grad, filtered_grad = filtered_grad, grad
             grad = torch.nan_to_num(grad)
@@ -209,8 +209,8 @@ class SpatioTemporalAdamVol(torch.optim.Adam):
                             output=filtered_grad,
                             radius=radius,
                             stride=strides[i],
-                            sigma_l_1d=self.sigma_l_1d,
-                            sigma_l_3d=self.sigma_l_3d
+                            sigma_d_1d=self.sigma_d_1d,
+                            sigma_d_3d=self.sigma_d_3d
                         )
                         grad, filtered_grad = filtered_grad, grad
 
@@ -226,8 +226,8 @@ class SpatioTemporalAdamVol(torch.optim.Adam):
                             output=filtered_var,
                             radius=radius,
                             stride=strides[i],
-                            sigma_l_1d=self.sigma_l_1d,
-                            sigma_l_3d=self.sigma_l_3d
+                            sigma_d_1d=self.sigma_d_1d,
+                            sigma_d_3d=self.sigma_d_3d
                         )
                         var, filtered_var = filtered_var, var
 
@@ -253,17 +253,17 @@ m3d_scalar = slangpy.loadModule(os.path.join(file_path, "filter3d_scalar.slang")
 m3d_rgb = slangpy.loadModule(os.path.join(file_path, "filter3d_rgb.slang"))
 
 
-def filter3d(input_grad, input_primal, output, radius=2, stride=2, sigma_l_1d=-1, sigma_l_3d=-1):
-    assert sigma_l_1d >= 0 and sigma_l_3d >= 0
+def filter3d(input_grad, input_primal, output, radius=2, stride=2, sigma_d_1d=-1, sigma_d_3d=-1):
+    assert sigma_d_1d >= 0 and sigma_d_3d >= 0
     h, w, d, c = output.shape
     block_size = 8
     fn = None
     if c == 1:
         fn = m3d_scalar
-        sigma_l=sigma_l_1d
+        sigma_d=sigma_d_1d
     elif c == 3:
         fn = m3d_rgb
-        sigma_l=sigma_l_3d
+        sigma_d=sigma_d_3d
 
     else:
         assert False
@@ -273,7 +273,7 @@ def filter3d(input_grad, input_primal, output, radius=2, stride=2, sigma_l_1d=-1
         output=output,
         radius=radius,
         stride=stride,
-        sigma_l=sigma_l
+        sigma_d=sigma_d
     ).launchRaw(
         blockSize=(block_size, block_size, block_size),
         gridSize=(math.ceil(h / block_size), math.ceil(w / block_size), math.ceil(d / block_size)),

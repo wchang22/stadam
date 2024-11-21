@@ -56,7 +56,7 @@ H_PARAMS = {
     "OPT_beta1": 0.2,
     "OPT_lr": 0.1,
     "OPT_lr_half_iters": [],
-    "OPT_sigma_l": 1e-1,
+    "OPT_sigma_d": 1e-1,
     "OPT_stride_levels": 5,
     "OPT_log_primal": True,
     "OPT_cross_term_off": False,
@@ -75,7 +75,7 @@ exps = {
     'low-pass': {
         'OPT_use_adam': False,
         'OPT_beta1': 0.2,
-        "OPT_sigma_l": 1e3, #large sigmal = data term off
+        "OPT_sigma_d": 1e3, #large sigmal = data term off
         "OPT_stride_levels": 3,
         "OPT_log_primal": False,
         "OPT_cross_term_off": True, #irrelevant
@@ -84,7 +84,7 @@ exps = {
     'bilateral': {
         'OPT_use_adam': False,
         'OPT_beta1': 0.2,
-        "OPT_sigma_l": 1e-0,
+        "OPT_sigma_d": 1e-0,
         "OPT_stride_levels": 3,
         "OPT_log_primal": True,
         "OPT_cross_term_off": True,
@@ -93,7 +93,7 @@ exps = {
     'cross_bilateral(ours)': {
         'OPT_use_adam': False,
         'OPT_beta1': 0.2,
-        "OPT_sigma_l": 1e-1,
+        "OPT_sigma_d": 1e-1,
         "OPT_stride_levels": 5,
         "OPT_log_primal": True,
         "OPT_cross_term_off": False,
@@ -134,7 +134,7 @@ def optimize(config, h_params, out_dir):
     beta1 = h_params['OPT_beta1']
     beta2 = 1.0 - (1 - beta1)**2
     betas = (beta1, beta2)
-    sigma_l = h_params['OPT_sigma_l']
+    sigma_d = h_params['OPT_sigma_d']
     ADAM_EPS = h_params['OPT_adam_eps']
     stride_levels = h_params['OPT_stride_levels']
 
@@ -142,7 +142,7 @@ def optimize(config, h_params, out_dir):
     if h_params['OPT_use_adam']:
         opt = torch.optim.Adam([texture], lr=lr, eps=ADAM_EPS, betas=betas)
     else:
-        opt = SpatioTemporalAdam([texture], lr=lr, stride_levels=stride_levels, sigma_l=sigma_l, eps=ADAM_EPS, betas=betas, log_primal=h_params['OPT_log_primal'], cross_term_off=h_params['OPT_cross_term_off'])
+        opt = SpatioTemporalAdam([texture], lr=lr, stride_levels=stride_levels, sigma_d=sigma_d, eps=ADAM_EPS, betas=betas, log_primal=h_params['OPT_log_primal'], cross_term_off=h_params['OPT_cross_term_off'])
 
     losses = []
     param_errs = []

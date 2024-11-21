@@ -6,7 +6,7 @@ void filter(
     TensorView<float> output,
     int radius,
     int stride,
-    float sigma_l,
+    float sigma_d,
     )
 {
     // Get the 'global' index of this thread.
@@ -21,7 +21,7 @@ void filter(
     double filtered_grad = 0.0f;
     double w_sum = 0.0f;
     double eps = 1e-30;
-    double sigma_l_d = double(sigma_l);
+    double sigma_d_d = double(sigma_d);
 
     float kernel[] = {3.0 / 8, 1.0 / 4, 1.0 / 16};
 
@@ -39,7 +39,7 @@ void filter(
             double param = double(input_primal[coord]);
             double param_neighbor = double(input_primal[neighbor_coord]);
 
-            double w_l = exp(-length(param - param_neighbor) / (sigma_l_d + eps));
+            double w_l = exp(-length(param - param_neighbor) / (sigma_d_d + eps));
             double h = kernel[abs(x)] * kernel[abs(y)];
             double w = h * w_l;
 
