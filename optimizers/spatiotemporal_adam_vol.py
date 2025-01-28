@@ -2,7 +2,7 @@ from typing import List, Optional
 
 import os
 import math
-import slangpy
+import slangtorch
 import torch
 from torch import Tensor
 from torch.optim.optimizer import (
@@ -249,8 +249,8 @@ class SpatioTemporalAdamVol(torch.optim.Adam):
 
 
 file_path = os.path.join(os.path.dirname(__file__))
-m3d_scalar = slangpy.loadModule(os.path.join(file_path, "filter3d_scalar.slang"))
-m3d_rgb = slangpy.loadModule(os.path.join(file_path, "filter3d_rgb.slang"))
+m3d_scalar = slangtorch.loadModule(os.path.join(file_path, "filter3d_scalar.slang"))
+m3d_rgb = slangtorch.loadModule(os.path.join(file_path, "filter3d_rgb.slang"))
 
 
 def filter3d(input_grad, input_primal, output, radius=2, stride=2, sigma_d_1d=-1, sigma_d_3d=-1):

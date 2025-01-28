@@ -2,7 +2,7 @@ mitsuba == 3.5.1
 largesteps
 gpytoolbox
 libigl
-slangpy == 1.1.22
+slangtorch
 torch == 2.1.0 # other versions require changes to the optimizer code due to API changes
 matplotlib
 numpy == 1.26.4
