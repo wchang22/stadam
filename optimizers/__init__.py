@@ -2,3 +2,4 @@ from .spatiotemporal_adam import SpatioTemporalAdam
 from .spatiotemporal_adam import filter2d
 from .spatiotemporal_adam_vol import SpatioTemporalAdamVol
 from .spatiotemporal_adam_vol import filter3d
+from .spatiotemporal_adam_mesh import SpatioTemporalAdamMesh

@@ -6,5 +6,6 @@
 .vs
 __pycache__
 .slangpy_cache
+.slangtorch_cache
 
 results/
