@@ -20,6 +20,7 @@ Then you should be able to run each notebook in the `notebooks` directory (eithe
 
 - `notebooks/texture_run.py`: End-to-end texture optimization.
 - `notebooks/volume_run.py`: End-to-end volume optimization.
+- `notebooks/mesh_run.py`: End-to-end mesh optimization.
 - `optimizers/filter_*.slang`: Slang filter implementations.
 - `optimizers/spatiotemporal_adam*.py`: Our spatiotemporal optimizers.
 
@@ -32,6 +33,7 @@ Then you should be able to run each notebook in the `notebooks` directory (eithe
   title = {Spatiotemporal Bilateral Gradient Filtering for Inverse Rendering},
   author = {Chang, Wesley and Yang, Xuanda and Belhe, Yash and Ramamoorthi, Ravi and Li, Tzu-Mao},
   booktitle = {ACM SIGGRAPH Asia 2024 Conference Proceedings},
+  articleno = {70},
   numpages = {11},
   year = {2024},
   publisher = {Association for Computing Machinery},
@@ -50,3 +52,4 @@ The code examples adapted the following scenes:
 - At the Window, from Bernhard Vogl.
 - Autumn Field, from Jarod Guest and Sergej Majboroda.
 - High-Res Smoke Plume, from JangaFX.
+- Kloppenheim 06, from Greg Zaal
